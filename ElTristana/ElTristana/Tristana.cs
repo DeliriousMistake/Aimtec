@@ -1,12 +1,7 @@
-﻿
-using Aimtec.SDK.Util.Cache;
-
-namespace ElTristana
+﻿namespace ElTristana
 {
     using System;
     using System.Collections.Generic;
-
-
     using System.Drawing;
     using System.Linq;
 
@@ -17,6 +12,8 @@ namespace ElTristana
     using Aimtec.SDK.Menu.Components;
     using Aimtec.SDK.Orbwalking;
     using Aimtec.SDK.TargetSelector;
+    using Aimtec.SDK.Util.Cache;
+
     using Spell = Aimtec.SDK.Spell;
 
     internal class Tristana 
@@ -55,11 +52,11 @@ namespace ElTristana
                 ComboMenu.Add(new MenuBool("focuse", "Focus E target"));
                 ComboMenu.Add(new MenuBool("finisher", "Use E + R finisher", false));
                 ComboMenu.Add(new MenuSlider("ecombomana", "Minimum mana for E", 25));
+
                 ComboMenu.Add(new MenuSeperator("sep1"));
-                foreach (var enemies in GameObjects.EnemyHeroes)
-                {
-                    ComboMenu.Add((new MenuBool("useeon" + enemies.ChampionName.ToLower(), enemies.ChampionName)));
-                }
+
+                foreach (Obj_AI_Hero enemies in GameObjects.EnemyHeroes)
+                    ComboMenu.Add(new MenuBool("useeon" + enemies.ChampionName.ToLower(), enemies.ChampionName));
             }
 
             Menu.Add(ComboMenu);
@@ -79,7 +76,7 @@ namespace ElTristana
                 return;
             }
 
-            var target =
+            Obj_AI_Hero target =
                 GameObjects.EnemyHeroes.FirstOrDefault(
                     e => e.HasBuff(TristanaE) && e.IsValidTarget(Player.AttackRange));
 
@@ -88,8 +85,8 @@ namespace ElTristana
                 return;
             }
 
-            var x = target.FloatingHealthBarPosition.X + 45;
-            var y = target.FloatingHealthBarPosition.Y - 25;
+            float x = target.FloatingHealthBarPosition.X + 45;
+            float y = target.FloatingHealthBarPosition.Y - 25;
 
             int stacks = target.BuffManager.GetBuffCount(TristanaE, true);
             if (stacks > -1)
@@ -113,13 +110,13 @@ namespace ElTristana
                 return;
             }
 
-            var hero = e.Target as Obj_AI_Hero;
+            Obj_AI_Hero hero = e.Target as Obj_AI_Hero;
             if (hero == null || !hero.IsValid || !hero.IsEnemy)
             {
                 return;
             }
 
-            var target =
+            Obj_AI_Hero target =
                 GameObjects.EnemyHeroes.FirstOrDefault(
                     t => t.HasBuff(TristanaE) && t.IsValidTarget(Player.AttackRange));
 
@@ -138,7 +135,7 @@ namespace ElTristana
                 return;
             }
 
-            var hero = sender as Obj_AI_Hero;
+            Obj_AI_Hero hero = sender as Obj_AI_Hero;
             if (hero == null || !hero.IsValid || !hero.IsEnemy)
             {
                 return;
@@ -182,7 +179,7 @@ namespace ElTristana
         {
             var spellsReady = new List<Spell>(new[] { spells[SpellSlot.R] }.Where(x => x.Ready && Menu["combo"]["user"].Enabled));
 
-            foreach (var enemy in GameObjects.EnemyHeroes)
+            foreach (Obj_AI_Hero enemy in GameObjects.EnemyHeroes)
             {
                 var spell = spellsReady
                     .FirstOrDefault(x => Player.GetSpellDamage(enemy, SpellSlot.R) > enemy.Health + enemy.PhysicalShield + 50 &&
@@ -200,7 +197,7 @@ namespace ElTristana
 
         private void OnCombo()
         {
-            var target =
+            Obj_AI_Hero target =
                 GameObjects.EnemyHeroes.FirstOrDefault(
                     e => e.HasBuff(TristanaE) && e.IsValidTarget(Player.AttackRange)) ??
                 TargetSelector.GetTarget(Player.AttackRange);
@@ -217,7 +214,7 @@ namespace ElTristana
 
             if (spells[SpellSlot.E].Ready &&  useE && Player.ManaPercent() > comboMana)
             {
-                var findBestETarget = GameObjects.EnemyHeroes
+                Obj_AI_Hero findBestETarget = GameObjects.EnemyHeroes
                     .Where(e => Menu["combo"]["useeon" + e.ChampionName.ToLower()].Enabled &&
                                 e.IsValidTarget(spells[SpellSlot.E].Range)).OrderBy(e => e.Health).FirstOrDefault();
   
@@ -245,7 +242,7 @@ namespace ElTristana
 
             if (useER && spells[SpellSlot.R].Ready)
             {
-                var targetHasEBuff = target.BuffManager.HasBuff(TristanaE, true);
+                bool targetHasEBuff = target.BuffManager.HasBuff(TristanaE, true);
                 if (targetHasEBuff == false)
                 {
                     return;
