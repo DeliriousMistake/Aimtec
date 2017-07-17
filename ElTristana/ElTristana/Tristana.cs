@@ -4,7 +4,6 @@ using Aimtec.SDK.Util.Cache;
 namespace ElTristana
 {
     using System;
-    using Aimtec.SDK.Damage.JSON;
     using System.Collections.Generic;
 
 
@@ -12,19 +11,12 @@ namespace ElTristana
     using System.Linq;
 
     using Aimtec;
-
-    using Aimtec.SDK;
     using Aimtec.SDK.Damage;
     using Aimtec.SDK.Extensions;
-    using Aimtec.SDK.Prediction;
-    using Aimtec.SDK.Prediction.Skillshots;
-
     using Aimtec.SDK.Menu;
     using Aimtec.SDK.Menu.Components;
     using Aimtec.SDK.Orbwalking;
     using Aimtec.SDK.TargetSelector;
-    using Aimtec.SDK.Util;
-    using Aimtec.SDK.Prediction.Health;
     using Spell = Aimtec.SDK.Spell;
 
     internal class Tristana 
@@ -38,7 +30,7 @@ namespace ElTristana
             { "zed", SpellSlot.R },
         };
 
-        public static Menu Menu = new Menu("Tristana", "Tristana", true);
+        public static Menu Menu = new Menu("ElTristana", "ElTristana", true);
         public static Orbwalker Orbwalker = new Orbwalker();
         public static Obj_AI_Hero Player => ObjectManager.GetLocalPlayer();
         public string TristanaE = "TristanaECharge";
@@ -49,7 +41,6 @@ namespace ElTristana
             { SpellSlot.W, new Spell(SpellSlot.W, 900) },
             { SpellSlot.E, new Spell(SpellSlot.E, 625) },
             { SpellSlot.R, new Spell(SpellSlot.R, 700) },
-
         };
 
         public Tristana()
@@ -72,10 +63,7 @@ namespace ElTristana
             }
 
             Menu.Add(ComboMenu);
-
             Menu.Attach();
-
-            spells[SpellSlot.W].SetSkillshot(0.35f, 250f, 1400f, false, SkillshotType.Circle);
 
             Render.OnPresent += Render_OnPresent;
             Game.OnUpdate += Game_OnUpdate;
@@ -106,7 +94,7 @@ namespace ElTristana
             int stacks = target.BuffManager.GetBuffCount(TristanaE, true);
             if (stacks > -1)
             {
-                for (var i = 0; 4 > i; i++)
+                for (int i = 0; 4 > i; i++)
                 {
                     Render.Line(x + i * 20, y, x + i * 20 + 10, y, 10, false, i > stacks ? Color.DarkGray : Color.OrangeRed);
                 }
@@ -120,7 +108,7 @@ namespace ElTristana
                 return;
             }
 
-            if (!Menu["combo"]["focuse"].As<MenuBool>().Enabled)
+            if (!Menu["combo"]["focuse"].Enabled)
             {
                 return;
             }
@@ -222,7 +210,12 @@ namespace ElTristana
                 return;
             }
 
-            if (spells[SpellSlot.E].Ready && Menu["combo"]["usee"].As<MenuBool>().Enabled && Player.ManaPercent() > Menu["combo"]["ecombomana"].As<MenuSlider>().Value)
+            bool useE = Menu["combo"]["usee"].Enabled;
+            bool useQ = Menu["combo"]["useqone"].Enabled;
+            bool useER = Menu["combo"]["finisher"].Enabled;
+            float comboMana = Menu["combo"]["ecombomana"].As<MenuSlider>().Value;
+
+            if (spells[SpellSlot.E].Ready &&  useE && Player.ManaPercent() > comboMana)
             {
                 var findBestETarget = GameObjects.EnemyHeroes
                     .Where(e => Menu["combo"]["useeon" + e.ChampionName.ToLower()].Enabled &&
@@ -237,7 +230,7 @@ namespace ElTristana
             if (spells[SpellSlot.Q].Ready)
             {
                 bool targetHasEBuff = target.BuffManager.HasBuff(TristanaE, true);
-                if (Menu["combo"]["useqone"].As<MenuBool>().Enabled)
+                if (useQ)
                 {
                     if (targetHasEBuff && target.IsValidTarget(Player.AttackRange - 150))
                     {
@@ -250,7 +243,7 @@ namespace ElTristana
                 }
             }
 
-            if (Menu["combo"]["finisher"].As<MenuBool>().Enabled && spells[SpellSlot.R].Ready)
+            if (useER && spells[SpellSlot.R].Ready)
             {
                 var targetHasEBuff = target.BuffManager.HasBuff(TristanaE, true);
                 if (targetHasEBuff == false)
@@ -262,7 +255,6 @@ namespace ElTristana
                 double e = Player.GetSpellDamage(target, SpellSlot.E);
                 float realHealth = target.Health + target.PhysicalShield + 50;
                 int stacks = target.BuffManager.GetBuffCount(TristanaE, true);
-
                 bool isKillable = r + e * (0.3 * stacks + 1) > realHealth;
 
                 if (isKillable)
