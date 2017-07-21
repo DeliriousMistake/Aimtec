@@ -118,7 +118,7 @@ namespace Twitch
                     Menu["misc"]["nowaa"].Enabled)
                     return;
 
-               if (target.IsValidTarget(W.Range)) //&& !Player.HasBuff("TwitchHideInShadows")
+               if (target.IsValidTarget(W.Range) && !HasBuff(Player, "TwitchHideInShadows")) //&& !Player.HasBuff("TwitchHideInShadows")
                {
                    W.Cast(target.Position);
                 }
