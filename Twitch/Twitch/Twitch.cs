@@ -41,7 +41,6 @@ namespace Twitch
 
         public Twitch()
         {
-
             Q = new Spell(SpellSlot.Q);
             W = new Spell(SpellSlot.W, 900);
             E = new Spell(SpellSlot.E);
@@ -56,7 +55,6 @@ namespace Twitch
                 ComboMenu.Add(new MenuBool("useq", "Use Q"));
                 ComboMenu.Add(new MenuBool("usee", "Use E Killable"));
                 ComboMenu.Add(new MenuBool("usew", "Use W"));
-                //ComboMenu.Add(new MenuBool("user", "Use R", false));
             }
 
             Menu.Add(ComboMenu);
@@ -86,10 +84,10 @@ namespace Twitch
                 return;
             }
 
-            if (e.Slot ==  SpellSlot.Recall && Player.SpellBook.GetSpellState(SpellSlot.Q) == SpellState.Ready &&
+            if (e.Slot ==  SpellSlot.Recall && Q.Ready &&
                 Menu["misc"]["stealthrecall"].Enabled)
             {
-                Player.SpellBook.CastSpell(SpellSlot.Q);
+                Q.Cast();
                 DelayAction.Queue((int) Player.SpellBook.GetSpell(SpellSlot.Q).SpellData.SpellCastTime + 300,
                     () => Player.SpellBook.CastSpell(SpellSlot.Recall));
             }
@@ -105,7 +103,7 @@ namespace Twitch
 
             if (Orbwalker.Mode == OrbwalkingMode.Combo)
             {
-                if (!Menu["combo"]["usew"].Enabled || Player.SpellBook.GetSpellState(SpellSlot.W) != SpellState.Ready)
+                if (!Menu["combo"]["usew"].Enabled || !W.Ready)
                     return;
 
                 if (Menu["misc"]["savemanae"].Enabled && Player.Mana <= 50 + 70)
@@ -118,7 +116,7 @@ namespace Twitch
                     Menu["misc"]["nowaa"].Enabled)
                     return;
 
-               if (target.IsValidTarget(W.Range) && !HasBuff(Player, "TwitchHideInShadows")) //&& !Player.HasBuff("TwitchHideInShadows")
+               if (target.IsValidTarget(W.Range) && !HasBuff(Player,"TwitchHideInShadows"))
                {
                    W.Cast(target.Position);
                 }
@@ -144,12 +142,12 @@ namespace Twitch
                 Player.SpellBook.CastSpell(SpellSlot.Recall);
 
             if (Menu["misc"]["ebeforedeath"].Enabled &&
-                Player.SpellBook.GetSpellState(SpellSlot.E) == SpellState.Ready &&
+                E.Ready &&
                 HealthPrediction.GetPrediction(ObjectManager.GetLocalPlayer(), (int) (Game.ClockTime + 1000.0)) <=
                 50.0f)
                 E.Cast();
 
-            if (Menu["combo"]["usee"].Enabled && Player.SpellBook.GetSpellState(SpellSlot.E) == SpellState.Ready)
+            if (Menu["combo"]["usee"].Enabled && E.Ready)
             {
                 var target = TargetSelector.GetTarget(1100);
                 if (target == null)
@@ -177,7 +175,7 @@ namespace Twitch
             if (target == null)
                 return;
 
-            if (!Menu["combo"]["useq"].Enabled || Player.SpellBook.GetSpellState(SpellSlot.Q) != SpellState.Ready)
+            if (!Menu["combo"]["useq"].Enabled || !Q.Ready)
                 return;
 
             if (Menu["misc"]["savemanae"].Enabled && Player.Mana >= 110)
