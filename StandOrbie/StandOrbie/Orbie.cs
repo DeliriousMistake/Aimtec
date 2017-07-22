@@ -7,11 +7,10 @@ namespace StandOrbie
     internal class Orbie
     {
         public static Menu Menu = new Menu("Orbie", "Orbie", true);
-        public static Orbwalker Orbwalker = new Orbwalker();
 
         public Orbie()
         {
-            Orbwalker.Attach(Menu);
+            Orbwalker.Implementation.Attach(Menu);
             Menu.Attach();
         }
     }
