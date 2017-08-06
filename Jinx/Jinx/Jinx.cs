@@ -105,6 +105,11 @@ namespace Jinx
                     continue;
                 }
 
+                if (enemy.IsValidTarget(Player.AttackRange + 200) || enemy.Health < Player.GetAutoAttackDamage(enemy))
+                {
+                    continue;
+                }
+
                 spell.Cast(enemy);
                 return;
                 
