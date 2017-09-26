@@ -100,10 +100,10 @@ namespace HealthTracker
                             : Color.FromArgb(255, 2, 157, 10));
 
                 // Draws the championnames
-                Render.Text((int)((Render.Width - HudOffsetRight) + 10f), (int)
-                    (HudOffsetTop + i + 13),
+                Render.Text((int)((Render.Width - HudOffsetRight) + 20f), (int)
+                    (HudOffsetTop + i + 12),
                     (int)(hero.Health / hero.MaxHealth * 100) > 0 ? Color.AliceBlue : Color.Red, championInfo,
-                    RenderTextFlags.VerticalCenter | RenderTextFlags.VerticalCenter);
+                    RenderTextFlags.VerticalCenter | RenderTextFlags.SingleLine);
 
                 i += 20f + 5;
             }
