@@ -78,6 +78,18 @@ namespace HealthTracker
                 var championInfo = $"{champion} ({healthPercent}%)";
                 const int Height = 25;
 
+                var timeR = hero.SpellBook.GetSpell(SpellSlot.R).CooldownEnd - Game.ClockTime;
+                var ultText = timeR <= 0
+                    ? "READY"
+                    : (timeR < 10 ? timeR.ToString("N1") : ((int)timeR).ToString()) + "s";
+
+                if (hero.SpellBook.GetSpell(SpellSlot.R).Level == 0)
+                {
+                    ultText = "N/A";
+                }
+
+                championInfo += $" - R: {ultText}";
+
                 // Draws the rectangle
                 DrawRect(
                     Render.Width - this.HudOffsetRight,
@@ -100,10 +112,15 @@ namespace HealthTracker
                             : Color.FromArgb(255, 2, 157, 10));
 
                 // Draws the championnames
-                Render.Text((int)((Render.Width - HudOffsetRight) + 20f), (int)
+                /*Render.Text((int)((Render.Width - HudOffsetRight) + 20f), (int)
                     (HudOffsetTop + i + 12),
                     (int)(hero.Health / hero.MaxHealth * 100) > 0 ? Color.AliceBlue : Color.Red, championInfo,
-                    RenderTextFlags.VerticalCenter | RenderTextFlags.SingleLine);
+                    RenderTextFlags.VerticalCenter | RenderTextFlags.SingleLine);*/
+
+                Render.Text((int)((float)(Render.Width - HudOffsetRight + 10) + 10f), (int)
+                    (HudOffsetTop + i + 11),
+                    (int)(hero.Health / hero.MaxHealth * 100) > 0 ? Color.AliceBlue : Color.Red, championInfo,
+                    RenderTextFlags.Center | RenderTextFlags.Bottom | RenderTextFlags.VerticalCenter);
 
                 i += 20f + 5;
             }
