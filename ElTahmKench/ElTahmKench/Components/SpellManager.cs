@@ -82,6 +82,7 @@
                 if (args.Name.Equals(Misc.DevouredBuffName))
                 {
                     Misc.LastDevouredType = DevourType.None;
+                    Misc.LastDevourer = Game.TickCount;
                 }
             }
             catch (Exception e)
@@ -109,8 +110,7 @@
                     var hero = sender as Obj_AI_Hero;
                     if (hero != null)
                     {
-                        Misc.LastDevouredType = hero.IsAlly ? DevourType.Ally : DevourType.Enemy;
-                        Misc.LastDevourer = Game.TickCount;
+                        Misc.LastDevouredType = hero.IsAlly ? DevourType.Ally : DevourType.Enemy;                   
                         return;
                     }
 
@@ -118,7 +118,6 @@
                     if (minion != null)
                     {
                         Misc.LastDevouredType = DevourType.Minion;
-                        Misc.LastDevourer = Game.TickCount;
                     }
                 }
             }
