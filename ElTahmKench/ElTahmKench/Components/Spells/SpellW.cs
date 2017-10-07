@@ -1,12 +1,4 @@
-﻿using Aimtec;
-using Aimtec.SDK.Extensions;
-using Aimtec.SDK.Menu.Components;
-using Aimtec.SDK.Orbwalking;
-using Aimtec.SDK.Prediction.Skillshots;
-using Aimtec.SDK.TargetSelector;
-using Aimtec.SDK.Util.Cache;
-
-namespace ElTahmKench.Components.Spells
+﻿namespace ElTahmKench.Components.Spells
 {
     using System;
     using System.Linq;
@@ -16,6 +8,13 @@ namespace ElTahmKench.Components.Spells
 
     using Aimtec;
     using Aimtec.SDK;
+
+    using Aimtec.SDK.Extensions;
+    using Aimtec.SDK.Menu.Components;
+    using Aimtec.SDK.Orbwalking;
+    using Aimtec.SDK.Prediction.Skillshots;
+    using Aimtec.SDK.TargetSelector;
+    using Aimtec.SDK.Util.Cache;
 
     /// <summary>
     ///     The spell W.

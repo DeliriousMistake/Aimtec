@@ -1,8 +1,4 @@
-﻿using Aimtec.SDK.Extensions;
-using Aimtec.SDK.Menu.Components;
-using Aimtec.SDK.Orbwalking;
-
-namespace ElTahmKench.Components
+﻿namespace ElTahmKench.Components
 {
     using System;
     using System.Collections.Generic;
@@ -17,7 +13,8 @@ namespace ElTahmKench.Components
     using Aimtec.SDK;
 
     using Aimtec.SDK.Orbwalking;
-
+    using Aimtec.SDK.Extensions;
+    using Aimtec.SDK.Menu.Components;
 
     /// <summary>
     ///     The spell manager.

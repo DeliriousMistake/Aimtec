@@ -1,8 +1,4 @@
-﻿using Aimtec.SDK.Extensions;
-using Aimtec.SDK.Menu.Components;
-using Aimtec.SDK.Prediction.Skillshots;
-
-namespace ElTahmKench.Components.Spells
+﻿namespace ElTahmKench.Components.Spells
 {
     using System;
     using System.Linq;
@@ -12,6 +8,10 @@ namespace ElTahmKench.Components.Spells
 
     using Aimtec;
     using Aimtec.SDK;
+
+    using Aimtec.SDK.Extensions;
+    using Aimtec.SDK.Menu.Components;
+    using Aimtec.SDK.Prediction.Skillshots;
 
     /// <summary>
     ///     The spell E.

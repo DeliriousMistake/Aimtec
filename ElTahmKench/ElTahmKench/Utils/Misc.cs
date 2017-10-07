@@ -1,7 +1,4 @@
-﻿using Aimtec;
-using Aimtec.SDK.Extensions;
-
-namespace ElTahmKench.Utils
+﻿namespace ElTahmKench.Utils
 {
     using System;
     using System.Collections.Generic;
@@ -12,6 +9,8 @@ namespace ElTahmKench.Utils
 
     using Aimtec;
     using Aimtec.SDK;
+
+    using Aimtec.SDK.Extensions;
 
     /// <summary>
     ///     The misc.

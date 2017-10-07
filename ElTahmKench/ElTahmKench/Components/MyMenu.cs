@@ -1,11 +1,4 @@
-﻿using Aimtec;
-using Aimtec.SDK.Menu;
-using Aimtec.SDK.Menu.Components;
-using Aimtec.SDK.Orbwalking;
-using Aimtec.SDK.TargetSelector;
-using Aimtec.SDK.Util.Cache;
-
-namespace ElTahmKench.Components
+﻿namespace ElTahmKench.Components
 {
     using System;
     using System.Collections.Generic;
@@ -16,6 +9,11 @@ namespace ElTahmKench.Components
 
     using Aimtec;
     using Aimtec.SDK;
+
+    using Aimtec.SDK.Menu;
+    using Aimtec.SDK.Menu.Components;
+    using Aimtec.SDK.Util.Cache;
+
 
     /// <summary>
     ///     The my menu class.
@@ -37,9 +35,6 @@ namespace ElTahmKench.Components
         internal MyMenu()
         {
             RootMenu = new Menu("ElTahmKench", "ElTahmKench", true);
-
-            //RootMenu.AddSubMenu(GetTargetSelectorNode());
-            // RootMenu.AddSubMenu(GetOrbwalkerNode());
 
             SpellManager.Orbwalker.Attach(RootMenu);
 

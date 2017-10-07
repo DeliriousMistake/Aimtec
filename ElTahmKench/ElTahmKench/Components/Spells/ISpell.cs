@@ -1,6 +1,4 @@
-﻿using Aimtec.SDK.Prediction.Skillshots;
-using Aimtec.SDK.TargetSelector;
-
+﻿
 namespace ElTahmKench.Components.Spells
 {
     using System;
@@ -13,6 +11,7 @@ namespace ElTahmKench.Components.Spells
     using Aimtec;
     using Aimtec.SDK;
     using Aimtec.SDK.Prediction;
+    using Aimtec.SDK.Prediction.Skillshots;
 
     /// <summary>
     ///     Base class for the spells.

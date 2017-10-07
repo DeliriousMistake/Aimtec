@@ -1,14 +1,15 @@
-﻿using Aimtec.SDK.Events;
-using Aimtec.SDK.Orbwalking;
-
-namespace ElTahmKench
+﻿namespace ElTahmKench
 {
     using System;
     using System.Diagnostics.CodeAnalysis;
 
     using ElTahmKench.Components;
+
     using Aimtec;
     using Aimtec.SDK;
+
+    using Aimtec.SDK.Events;
+    using Aimtec.SDK.Orbwalking;
 
     /// <summary>
     ///     The program.
