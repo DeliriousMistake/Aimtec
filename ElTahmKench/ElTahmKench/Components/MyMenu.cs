@@ -126,7 +126,7 @@
                     node.Add(nodeLastHit);
                 }
 
-                if (spellSlotNameLower.Equals("w", StringComparison.InvariantCultureIgnoreCase))
+                /*if (spellSlotNameLower.Equals("w", StringComparison.InvariantCultureIgnoreCase))
                 {
                     var nodeAlly = new Menu(spellSlotNameLower + "allymenu", "Ally settings");
                     {
@@ -157,7 +157,7 @@
 
                         node.Add(nodeBuff);
                     }
-                }
+                }*/
 
                 RootMenu.Add(node);
             }
