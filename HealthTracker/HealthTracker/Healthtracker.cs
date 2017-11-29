@@ -1,34 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Aimtec;
-using Aimtec.SDK.Menu;
-using Aimtec.SDK.Menu.Components;
-using Aimtec.SDK.Util.Cache;
-
-namespace HealthTracker
+﻿namespace HealthTracker
 {
+    using System;
+    using System.Drawing;
+    using System.Linq;
+    using Aimtec;
+    using Aimtec.SDK.Menu;
+    using Aimtec.SDK.Menu.Components;
+    using Aimtec.SDK.Util.Cache;
+
     internal class Healthtracker
     {
         public static Menu Menu = new Menu("tracker", "Tracker", true);
 
-        private int HudOffsetRight
-        {
-            get { return Menu["xpos"].As<MenuSlider>().Value; }
-        }
+        private int HudOffsetRight => Menu["xpos"].As<MenuSlider>().Value;
 
-        private int HudOffsetTop
-        {
-            get { return Menu["ypos"].As<MenuSlider>().Value; }
-        }
+        private int HudOffsetTop => Menu["ypos"].As<MenuSlider>().Value;
 
-        private bool HudActive
-        {
-            get { return Menu["trackhealth"].Enabled; }
-        }
+        private bool HudActive => Menu["trackhealth"].Enabled;
 
         private void DrawRect(float x, float y, int width, float height, float thickness, Color color)
         {
@@ -57,7 +45,6 @@ namespace HealthTracker
             }
         }
 
-        // Whatever for now
         private void Render_OnPresent()
         {
             if (!HudActive)
@@ -66,7 +53,7 @@ namespace HealthTracker
             }
 
             float i = 0;
-            foreach (var hero in GameObjects.EnemyHeroes)
+            foreach (var hero in GameObjects.EnemyHeroes.Where(x => !x.IsDead))
             {
                 var champion = hero.ChampionName;
                 if (champion.Length > 20)
@@ -111,11 +98,6 @@ namespace HealthTracker
                             ? Color.FromArgb(255, 230, 169, 14)
                             : Color.FromArgb(255, 2, 157, 10));
 
-                // Draws the championnames
-                /*Render.Text((int)((Render.Width - HudOffsetRight) + 20f), (int)
-                    (HudOffsetTop + i + 12),
-                    (int)(hero.Health / hero.MaxHealth * 100) > 0 ? Color.AliceBlue : Color.Red, championInfo,
-                    RenderTextFlags.VerticalCenter | RenderTextFlags.SingleLine);*/
 
                 Render.Text((int)((float)(Render.Width - HudOffsetRight + 10) + 10f), (int)
                     (HudOffsetTop + i + 11),
